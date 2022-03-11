@@ -40,7 +40,7 @@ jobs:
         run: |
           copy out\* dist\*
           copy /Y dist\* .
-          dir dist /S /B > dist.txt
+          powershell -Command "& {Push-Location dist;  Get-ChildItem -File -Recurse . | Resolve-Path -Relative}" > dist.txt
           git checkout --orphan dist
           git reset
           for /F "tokens=*" %%A in (dist.txt) do git add %%A
