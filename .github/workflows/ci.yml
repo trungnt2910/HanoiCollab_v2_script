@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Compile script
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+          fetch-depth: 0
+      
+      - name: Setup NodeJS
+        uses: actions/setup-node@v2
+        with:
+          always-auth: true
+          registry-url: 'https://npm.pkg.github.com'
+          node-version: 16.x
+
+      - name: Build
+        run: npm run build
+        shell: cmd
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: scripts
+          path: out
+      
+      - name: Prepare dist branch
+        run: |
+          copy out\* .
+          copy dist\* .
+          git checkout --orphan dist
+          git add HanoiCollab_v2.user.js
+          git add HanoiCollab_v2.meta.js
+          git add HanoiCollab_v2.user.js.LICENSE.txt
+          git add README.md
+          git config --local user.email "actions@github.com"
+          git config --local user.name "Github Actions"
+          git commit -m "dist: $GITHUB_SHA"
+        shell: cmd
+
+      - name: Push
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ github.token }}
+          branch: dist

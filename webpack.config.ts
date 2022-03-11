@@ -29,8 +29,8 @@ const config: webpack.Configuration = {
     }]
   },
   output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "script.user.js"
+    path: path.resolve(__dirname, "out"),
+    filename: "HanoiCollab_v2.user.js"
   },
   resolve: {
     modules: [
