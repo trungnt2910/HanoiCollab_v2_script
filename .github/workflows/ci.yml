@@ -39,8 +39,8 @@ jobs:
       - name: Prepare dist branch
         run: |
           copy out\* dist\*
-          copy dist\* .
-          dir dist /B > dist.txt
+          copy /Y dist\* .
+          dir dist /S /B > dist.txt
           git checkout --orphan dist
           git reset
           for /F "tokens=*" %%A in (dist.txt) do git add %%A
