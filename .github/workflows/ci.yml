@@ -38,8 +38,8 @@ jobs:
       
       - name: Prepare dist branch
         run: |
-          copy out\* dist\*
-          copy /Y dist\* .
+          xcopy /E /H /R /Y out\* dist
+          xcopy /E /H /R /Y dist\* .
           powershell -Command "& {Push-Location dist;  Get-ChildItem -File -Recurse . | Resolve-Path -Relative}" > dist.txt
           git checkout --orphan dist
           git reset
