@@ -4,6 +4,7 @@ import { CommunityAnswerInfoWritten, CommunityAnswerInfoMultipleChoiceAnswer } f
 import { HanoiCollabGlobals } from "../Data/HanoiCollabGlobals";
 import { GetToken } from "./Login";
 import { HanoiCollabConnection } from "../Data/HanoiCollabConnection";
+import { GUID } from "../Utilities/Guid";
 
 async function SetupExamConnection()
 {
@@ -124,11 +125,42 @@ async function SetupExamConnection()
         question.UpdateCommunityAnswersHtml();
     });
 
-    connection.on("RequestExamLayout", function(examId)
+    connection.on("RequestExamLayout", async function(examId)
     {
         if (examId === HanoiCollabGlobals.ProviderFunctions.GetFormId())
         {
-            connection.invoke("BroadcastExamLayout", examId, new ExamLayout());
+            var layout = new ExamLayout();
+            var str = JSON.stringify(layout);
+
+            // Do the simple and reliable method when possible.
+            const chunkSize = 16384;
+            if (str.length <= chunkSize)
+            {
+                connection.invoke("BroadcastExamLayout", examId, layout);
+            }
+            else
+            {
+                var broadcastId = GUID();
+                var chunks = Array<string>();
+                chunks.push("");
+                for (var i = 0; i < str.length; ++i)
+                {
+                    // Escape
+                    var nextChar = JSON.stringify(str.charAt(i));
+                    // Quotes
+                    nextChar = nextChar.substring(1, nextChar.length - 1);
+                    if (chunks[chunks.length - 1].length + nextChar.length > chunkSize)
+                    {
+                        chunks.push("");
+                    }
+                    chunks[chunks.length - 1] += nextChar;
+                }
+                for (var i = 0; i < chunks.length; ++i)
+                {
+                    // Somehow this makes two requests stick into one.
+                    await connection.invoke("BroadcastExamLayoutPartial", examId, broadcastId, i, chunks.length, JSON.parse(`"${chunks[i]}"`));
+                }
+            }
         }
     });
 

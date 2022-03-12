@@ -19,6 +19,7 @@
 // @match        https://azota.vn/*
 // @match        https://quilgo.com/*
 // @match        https://docs.google.com/forms/*
+// @match        https://study.hanoi.edu.vn/lam-bai/*
 // ==/UserScript==
 
 import { HanoiCollabGlobals } from "./Data/HanoiCollabGlobals";

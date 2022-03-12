@@ -1,8 +1,6 @@
 import { QuestionLayout } from "../Data/ExamLayout";
 import { QuestionInfo } from "../Data/QuestionInfo";
-import { AzotaFormProvider } from "./AzotaFormProvider";
 import { FormProviderType } from "./FormProviderType";
-import { GoogleDocsFormProvider } from "./GoogleDocsFormProvider";
 
 class FormProvider
 {
@@ -38,7 +36,7 @@ class FormProvider
     }
 
     // Properties
-    Type() : FormProviderType
+    GetType() : FormProviderType
     {
         return FormProviderType.None;
     }

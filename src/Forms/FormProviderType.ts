@@ -6,6 +6,7 @@ enum FormProviderType
     Shub = "shub.edu.vn",
     Azota = "azota.vn",
     MicrosoftForms = "forms.office.com",
+    HanoiStudy = "study.hanoi.edu.vn",
 }
 
 function ToFormProviderType(str: string): FormProviderType
@@ -22,6 +23,8 @@ function ToFormProviderType(str: string): FormProviderType
             return FormProviderType.Quilgo;
         case "shub.edu.vn":
             return FormProviderType.Shub;
+        case "study.hanoi.edu.vn":
+            return FormProviderType.HanoiStudy;
         default:
             return FormProviderType.None;
     }
