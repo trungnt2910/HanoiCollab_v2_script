@@ -7,6 +7,7 @@ import { QuestionInfo } from "../Data/QuestionInfo";
 import { AnswerInfo } from "../Data/AnswerInfo";
 import { HanoiCollab$ } from "../UI/HanoiCollabQuery";
 import { Html } from "../Utilities/Html";
+import MathMLToLaTeX from "mathml-to-latex"
 
 class HanoiStudyFormProvider extends FormProvider
 {
@@ -113,12 +114,23 @@ class HanoiStudyFormProvider extends FormProvider
         // Extracted from HanoiCollab v1.
         function GetRealText(element: HTMLElement): string
         {
+            function GetMathScriptText(element: HTMLScriptElement): string
+            {
+                switch (element.type)
+                {
+                    case "math/mml":
+                        return MathMLToLaTeX.convert(element.innerHTML);
+                    default:
+                        return element.textContent ?? "";
+                }
+            }
+
             var clone = element.cloneNode(true) as HTMLElement;
             var mathText = clone.getElementsByClassName("mjx-chtml");
             var mathScript = Array.from(clone.getElementsByTagName("script")).filter(elem => elem.type.startsWith("math/"));
             for (var i = 0; i < mathText.length; ++i)
             {
-                mathText[i].parentElement!.replaceChild(document.createTextNode(mathScript[i].innerText), mathText[i]);
+                mathText[i].parentElement!.replaceChild(document.createTextNode(GetMathScriptText(mathScript[i])), mathText[i]);
                 mathScript[i].parentElement!.replaceChild(document.createTextNode(""), mathScript[i]);
             }
             var img = clone.getElementsByTagName("img");

@@ -19,6 +19,7 @@
     "content-to-clipboard": "chcp 65001 && clip < out/HanoiCollab_v2.user.js"
   },
   "dependencies": {
-    "@microsoft/signalr": "^6.0.3"
+    "@microsoft/signalr": "^6.0.3",
+    "mathml-to-latex": "^1.2.0"
   }
 }
