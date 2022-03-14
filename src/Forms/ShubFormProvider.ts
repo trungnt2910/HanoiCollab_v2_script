@@ -93,6 +93,13 @@ class ShubFormProvider extends FormProvider
         return FormProviderType.Shub;
     }
 
+    DisableSandbox(): boolean 
+    {
+        // SHUB sandbox is really unstable for some windows,
+        // especially the details window.
+        return !top!.location.href.includes("/test");
+    }
+
     GetFormId(): string 
     {
         return "" + top!.location.href.match(/homework\/([\d]+?)\/test/)![1];    
