@@ -62,14 +62,15 @@ async function SetupSandbox() : Promise<{Window: Window, Document: Document}>
                 {
                     for (var node of mutation.addedNodes)
                     {
-                        if (node instanceof Element)
+                        if (("getAttribute" in node) && ("getElementsByTagName" in node)) 
                         {
-                            PatchLocation(node);
-                            await PatchScript(node);
-                            for (var elem of node.getElementsByTagName("*"))
+                            var elem = node as Element;
+                            PatchLocation(elem);
+                            await PatchScript(elem);
+                            for (var childElem of elem.getElementsByTagName("*"))
                             {
-                                PatchLocation(elem);
-                                await PatchScript(elem);
+                                PatchLocation(childElem);
+                                await PatchScript(childElem);
                             }    
                         }
                     }
