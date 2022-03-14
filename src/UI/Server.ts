@@ -2,7 +2,7 @@ import { HanoiCollabGlobals } from "../Data/HanoiCollabGlobals";
 
 async function ServerPrompt()
 {
-    var server = prompt("Enter your HanoiCollab server address", (HanoiCollabGlobals.Server == "") ? HanoiCollabGlobals.Server : "https://hanoicollab.herokuapp.com/")!;
+    var server = prompt("Enter your HanoiCollab server address", (HanoiCollabGlobals.Server != "") ? HanoiCollabGlobals.Server : "https://hanoicollab.herokuapp.com/")!;
     if (!server.endsWith("/"))
     {
         server += "/";
