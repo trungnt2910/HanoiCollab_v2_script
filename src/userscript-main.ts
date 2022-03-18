@@ -32,6 +32,7 @@ import { SetupSandbox } from "./UI/Sandbox";
 import { SetupServer } from "./UI/Server";
 import { SetupStealthMode } from "./UI/StealthMode";
 import { SetupStyles } from "./UI/Styles";
+import { SetupSuspiciousQuestionsUserInterface } from "./UI/Sus";
 import { SetupTaskbar } from "./UI/Taskbar";
 import { SetupTrackingPrevention } from "./UI/TrackingPrevention";
 
@@ -103,6 +104,7 @@ async function Main()
     {
         HanoiCollabGlobals.Questions = HanoiCollabGlobals.ProviderFunctions.GetQuestionInfos();
         HanoiCollabGlobals.ProviderFunctions.SetupElementHooks();
+        SetupSuspiciousQuestionsUserInterface();
         await SetupExamConnection();
         HanoiCollabGlobals.ProviderFunctions.SetupCommunityAnswersUI();
     }

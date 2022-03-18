@@ -88,6 +88,12 @@ class ShubFormProvider extends FormProvider
         q.HtmlElement.closest(".MuiBox-root")!.appendChild(q.CommunityAnswersHtml);
     }
 
+    FocusQuestion(q: QuestionInfo): void
+    {
+        q.HtmlElement.scrollIntoView();
+        q.HtmlElement.click();
+    }
+
     GetType(): FormProviderType
     {
         return FormProviderType.Shub;

@@ -35,6 +35,11 @@ class FormProvider
         throw new Error("Not implemented");
     }
 
+    FocusQuestion(q: QuestionInfo)
+    {
+        q.HtmlElement.scrollIntoView();
+    }
+
     // Properties
     GetType() : FormProviderType
     {

@@ -5,6 +5,7 @@ import { HanoiCollabGlobals } from "../Data/HanoiCollabGlobals";
 import { GetToken } from "./Login";
 import { HanoiCollabConnection } from "../Data/HanoiCollabConnection";
 import { GUID } from "../Utilities/Guid";
+import { UpdateSuspiciousQuestionsList } from "./Sus";
 
 async function SetupExamConnection()
 {
@@ -54,6 +55,8 @@ async function SetupExamConnection()
                 question.CommunityAnswers.push({User: onlineQuestions[i].UserId, Answer: onlineQuestions[i].Answer});   
             }
         }
+
+        UpdateSuspiciousQuestionsList()
 
         for (var q of questions)
         {
@@ -123,6 +126,7 @@ async function SetupExamConnection()
         }
 
         question.UpdateCommunityAnswersHtml();
+        UpdateSuspiciousQuestionsList();
     });
 
     connection.on("RequestExamLayout", async function(examId)
