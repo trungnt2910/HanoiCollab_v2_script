@@ -24,6 +24,7 @@
 
 import { HanoiCollabGlobals } from "./Data/HanoiCollabGlobals";
 import { ToFormProviderType } from "./Forms/FormProviderType";
+import { SetupAbout } from "./UI/About";
 import { SetupChatConnection, SetupChatUserInterface, TerminateChatConnection } from "./UI/Chat";
 import { SetupExamConnection, TerminateExamConnection } from "./UI/Exam";
 import { SetupKeyBindings } from "./UI/KeyBindings";
@@ -79,6 +80,7 @@ async function Main()
     await SetupStealthMode();
     SetupKeyBindings();
     SetupStyles();
+    SetupAbout();
     SetupTaskbar();
 
     await SetupServer();
