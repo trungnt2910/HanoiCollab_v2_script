@@ -1,9 +1,16 @@
 import { HanoiCollabGlobals } from "../Data/HanoiCollabGlobals";
 
-function EnableDrag(elem: HTMLElement) 
+function EnableDrag(elem: HTMLElement, dragHandle: HTMLElement | undefined = undefined) 
 {
+    if (!dragHandle)
+    {
+        dragHandle = elem;
+    }
+
+    var handle = dragHandle as HTMLElement;
+
     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-    elem.onmousedown = DragMouseDown;
+    handle.onmousedown = DragMouseDown;
   
     function DragMouseDown(e: MouseEvent) 
     {

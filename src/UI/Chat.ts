@@ -49,7 +49,10 @@ async function SetupChatUserInterface()
 
     HanoiCollab$("body")!.appendChild(chatContainer);
 
-    EnableDrag(chatContainer);
+    // We can't use the whole container as a drag target.
+    // The drag handler prevents the default handler from happening, 
+    // making it impossible to focus the input box.
+    EnableDrag(chatContainer, chatContainer.querySelector("#hanoicollab-chat-messages") as HTMLElement);
 
     HanoiCollab$("#hanoicollab-chat-input")?.addEventListener("keyup", async function(e) 
     {
