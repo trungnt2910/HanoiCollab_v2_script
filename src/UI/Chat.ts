@@ -42,8 +42,8 @@ async function SetupChatUserInterface()
 
     var chatContainer = Html.createElement(`
     <div id="hanoicollab-chat-container" class="hanoicollab-basic-container" style="position:fixed;right:16px;bottom:16px;height:20%;width:30%;border-radius:1ex;background-color:rgba(0,127,255,0.9);z-index:9997;user-select:text">
-        <div id="hanoicollab-chat-messages" style="width:100%;height:80%;overflow:auto;top:0;position:absolute;margin:0;"></div>
-        <input type="text" autocomplete="off" id="hanoicollab-chat-input" style="width:100%;bottom:-10%;position:absolute;">
+        <div id="hanoicollab-chat-messages" style="width:100%;height:85%;overflow:auto;top:0;position:absolute;margin:0;"></div>
+        <input type="text" autocomplete="off" id="hanoicollab-chat-input" style="width:100%;bottom:0;position:absolute;">
     </div>
     `);
 

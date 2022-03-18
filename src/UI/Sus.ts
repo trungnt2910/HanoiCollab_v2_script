@@ -89,14 +89,19 @@ function UpdateSuspiciousQuestionsList()
                 `
                 <div class="hanoicollab-sus-question" style="margin:4px;border-style:solid;overflow:hidden;">
                     <p style="float:left;clear:left;">Question #${q.Index + 1}: ${alphaList.join(",")}</p>
-                    <div style="float:right;clear:right;">
-                        <button class="hanoicollab-button" style="margin:0;padding:0;max-height:100%">Focus</button>
+                    <div style="float:right;clear:right;display:flex;">
+                        <button class="hanoicollab-button hanoicollab-ping-button" style="margin-left:4px;margin-right:4px;padding:0;max-height:100%">Ping</button>
+                        <button class="hanoicollab-button hanoicollab-focus-button" style="margin-left:4px;margin-right:4px;padding:0;max-height:100%">Focus</button>
                     </div>
                     <p style="clear:both;display:block;"></p>
                 </div>
                 `
             );
-            elem.querySelector("button")?.addEventListener("click", function ()
+            elem.querySelector(".hanoicollab-ping-button")?.addEventListener("click", async function()
+            {
+                await q.Ping();
+            });
+            elem.querySelector(".hanoicollab-focus-button")?.addEventListener("click", function()
             {
                 HanoiCollabGlobals.ProviderFunctions.FocusQuestion(q);
             });

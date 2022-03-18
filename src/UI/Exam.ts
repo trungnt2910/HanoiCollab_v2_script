@@ -6,6 +6,9 @@ import { GetToken } from "./Login";
 import { HanoiCollabConnection } from "../Data/HanoiCollabConnection";
 import { GUID } from "../Utilities/Guid";
 import { UpdateSuspiciousQuestionsList } from "./Sus";
+import { PingType } from "../Data/PingType";
+import { DisplayToast, ToastAction, ToastType } from "./Toast";
+import { QuestionInfo } from "../Data/QuestionInfo";
 
 async function SetupExamConnection()
 {
@@ -165,6 +168,41 @@ async function SetupExamConnection()
                     await connection.invoke("BroadcastExamLayoutPartial", examId, broadcastId, i, chunks.length, JSON.parse(`"${chunks[i]}"`));
                 }
             }
+        }
+    });
+
+    connection.on("Ping", async function(pinger: string, pingType: string, details: string)
+    {
+        switch (pingType)
+        {
+            case PingType.Question:
+            {
+                var questionId = details;
+                var question = HanoiCollabGlobals.Questions.find(function (q)
+                {
+                    return q.Id == questionId;
+                });
+
+                if (!question)
+                {
+                    return;
+                }
+
+                var action = new ToastAction();
+                action.Text = "Focus";
+                action.Function = function()
+                {
+                    HanoiCollabGlobals.ProviderFunctions.FocusQuestion(question as QuestionInfo);
+                }
+
+                DisplayToast(ToastType.Warning, `${pinger} needs attention on question #${question.Index + 1}.`, 5000, [action]);
+            }
+            break;
+            default:
+            {
+                DisplayToast(ToastType.Info, `${pinger} tried to send a ${pingType} ping: ${details}`);
+            }
+            break;
         }
     });
 

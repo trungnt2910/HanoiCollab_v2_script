@@ -35,6 +35,7 @@ import { SetupStealthMode } from "./UI/StealthMode";
 import { SetupStyles } from "./UI/Styles";
 import { SetupSuspiciousQuestionsUserInterface } from "./UI/Sus";
 import { SetupTaskbar } from "./UI/Taskbar";
+import { SetupToast } from "./UI/Toast";
 import { SetupTrackingPrevention } from "./UI/TrackingPrevention";
 
 import "./Utilities/Document";
@@ -82,6 +83,7 @@ async function Main()
     SetupStyles();
     SetupAbout();
     SetupTaskbar();
+    await SetupToast();
 
     await SetupServer();
     await SetupIdentity();

@@ -2,6 +2,7 @@ import { Html } from "../Utilities/Html";
 import { AnswerInfo } from "./AnswerInfo";
 import { CommunityAnswerInfo } from "./CommunityAnswerInfo";
 import { HanoiCollabGlobals } from "./HanoiCollabGlobals";
+import { PingType } from "./PingType";
 import { QuestionType } from "./QuestionType";
 
 class QuestionInfo
@@ -28,11 +29,11 @@ class QuestionInfo
             `
             <div class="hanoicollab-community-answers">
                 <div class="hanoicollab-community-answers-header">Community answers:</div>
-                <div class="hanoicollab-community-answers-multiple-choice">
+                <div class="hanoicollab-community-answers-multiple-choice hanoicollab-section">
                     <div class="hanoicollab-community-answers-multiple-choice-header">Multiple choice:</div>
                     <div class="hanoicollab-community-answers-multiple-choice-contents"></div>
                 </div>
-                <div class="hanoicollab-community-answers-written">
+                <div class="hanoicollab-community-answers-written hanoicollab-section">
                     <div class="hanoicollab-community-answers-written-header">Written:</div>
                     <select class="hanoicollab-community-answers-written-select">
                     </select>
@@ -41,6 +42,8 @@ class QuestionInfo
             </div>
             `
         );
+
+        this.AddPingButton();
 
         if (this.Type == QuestionType.MultipleChoice)
         {
@@ -190,6 +193,25 @@ class QuestionInfo
         button.type = "button";
         button.addEventListener("click", function() {q.ClearUserAnswer();});
         q.HtmlElement.appendChild(button);  
+    }
+
+    async Ping()
+    {
+        if (HanoiCollabGlobals.ExamConnection)
+        {
+            await HanoiCollabGlobals.ExamConnection.invoke("Ping", HanoiCollabGlobals.ProviderFunctions.GetFormId(), PingType.Question, this.Id);
+        }
+    }
+
+    AddPingButton()
+    {
+        var q = this;
+        var button = HanoiCollabGlobals.Document.createElement("button");
+        button.innerText = "Ping this question!";
+        button.className = "hanoicollab-ping-button";
+        button.type = "button";
+        button.addEventListener("click", function() {q.Ping()});
+        q.CommunityAnswersHtml.appendChild(button);
     }
 };
 

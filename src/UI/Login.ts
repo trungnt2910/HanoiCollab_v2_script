@@ -21,16 +21,25 @@ async function LoginPopup(displayText: string | null = null)
             <p id="hanoicollab-login-popup-background" style="position:fixed;top:0;left:0;right:0;bottom:0;background-color:rgba(0,0,0,0.9);z-index:9998;"></p>      
             <div id="hanoicollab-login-popup" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:50%;padding:2em;color:white;background-color:rgba(0,127,255,0.75);border-radius:1ex;z-index:9999;">
                 <p class="hanoicollab-basic-container">${displayText}</p>
-                <p class="hanoicollab-basic-container">Your current HanoiCollab server: <a class="hanoicollab-basic-container" href="${HanoiCollabGlobals.Server}" style="color:orange;">${HanoiCollabGlobals.Server}</a>.</p>
-                <p class="hanoicollab-basic-container">Press Alt+S to change your server.</p>
-                <input class="hanoicollab-basic-container" type="text" id="hanoicollab-username" style="color:black;" value="${oldUsername}">                           
-                <input class="hanoicollab-basic-container" type="password" id="hanoicollab-password" style="color:black;" value="">
+                
+                <div class="hanoicollab-section">
+                    <p class="hanoicollab-basic-container">Your current HanoiCollab server: <a class="hanoicollab-basic-container" href="${HanoiCollabGlobals.Server}" style="color:orange;">${HanoiCollabGlobals.Server}</a>.</p>
+                    <p class="hanoicollab-basic-container">Press Alt+S to change your server.</p>
+                </div>
+
+                <div class="hanoicollab-section">
+                    <input class="hanoicollab-basic-container" type="text" id="hanoicollab-username" style="color:black;" value="${oldUsername}">                           
+                    <input class="hanoicollab-basic-container" type="password" id="hanoicollab-password" style="color:black;" value="">
+                <div>
 
                 <p class="hanoicollab-basic-container" id="hanoicollab-login-status">Please enter your HanoiCollab username and password.</p>
-                <button class="hanoicollab-button" id="hanoicollab-login-button">Login</button>
-                <button class="hanoicollab-button" id="hanoicollab-register-button">Register</button>
-                <button class="hanoicollab-button" id="hanoicollab-close-button">Later</button>
-                <button class="hanoicollab-button" id="hanoicollab-close-suppress-button">Don't bother me today</button>
+
+                <div class="hanoicollab-section">
+                    <button class="hanoicollab-button" id="hanoicollab-login-button">Login</button>
+                    <button class="hanoicollab-button" id="hanoicollab-register-button">Register</button>
+                    <button class="hanoicollab-button" id="hanoicollab-close-button">Later</button>
+                    <button class="hanoicollab-button" id="hanoicollab-close-suppress-button">Don't bother me today</button>
+                </div>
             </div>
         </div>                                                                    
         `));

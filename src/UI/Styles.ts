@@ -19,8 +19,8 @@ function SetupStyles()
         letter-spacing:              normal;
         line-height:                 1.5;
         margin:                      0;
-        margin-block-start:          1em;
-        margin-block-end:            1em;
+        margin-block-start:          0px;
+        margin-block-end:            0px;
         margin-inline-start:         0px;
         margin-inline-end:           0px;
         padding:                     0;
@@ -41,6 +41,10 @@ function SetupStyles()
         cursor:                 pointer;
         line-height:            1.5;
         text-transform:         unset !important;
+    }
+    .hanoicollab-section {
+        margin-block-start:          0.5em;
+        margin-block-end:            0.5em;
     }
     `;
     HanoiCollabGlobals.Document.body.appendChild(style);
