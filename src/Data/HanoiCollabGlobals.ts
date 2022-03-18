@@ -14,6 +14,7 @@ class HanoiCollabGlobalType
     StealthModeConfig: IDictionary<boolean>;
     Server: string;
     Identity: IIdentity | null;
+    ActiveUsername: string | null;
 
     // === GENERAL INFO ===
     // The naming is stupid, yes, but we're dealing with a lot
@@ -56,6 +57,7 @@ class HanoiCollabGlobalType
         this.StealthModeConfig = {};
         this.Server = "";
         this.Identity = null;
+        this.ActiveUsername = null;
 
         this.Channel = "";
         this.Provider = FormProviderType.None;

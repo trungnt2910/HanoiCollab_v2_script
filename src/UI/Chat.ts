@@ -61,9 +61,18 @@ async function SetupChatUserInterface()
         }
     });
 
+
     HanoiCollabGlobals.ChatConnection?.on("ReceiveMessage", function(name: string, message: string)
     {
-        HanoiCollab$("#hanoicollab-chat-messages")?.appendChild(Html.createElement(`<p class="hanoicollab-basic-container" style="user-select:text;word-wrap: break-word;"><b>${name.escapeHTML()}</b>: ${message.escapeHTML()}</p>`));
+        var emphasisStyle = ""
+        var pingSyntax = ("@<" + HanoiCollabGlobals.ActiveUsername + ">").escapeHTML();
+        message = message.escapeHTML();
+        if (message.includes(pingSyntax))
+        {
+            emphasisStyle = "background-color:rgba(255,255,0,0.9);";
+            message = message.replace(new RegExp(pingSyntax.escapeRegex(), "g"), `<b>@${HanoiCollabGlobals.ActiveUsername}</b>`);
+        }
+        HanoiCollab$("#hanoicollab-chat-messages")?.appendChild(Html.createElement(`<p class="hanoicollab-basic-container" style="user-select:text;word-wrap: break-word;${emphasisStyle}"><b>${name.escapeHTML()}</b>: ${message}</p>`));
         HanoiCollab$("#hanoicollab-chat-messages")!.scrollTop = HanoiCollab$("#hanoicollab-chat-messages")!.scrollHeight;
     })
 

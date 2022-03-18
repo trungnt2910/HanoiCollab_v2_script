@@ -4,6 +4,7 @@ declare global
     {
         getHashCode(): string;
         escapeHTML(): string;
+        escapeRegex(): string;
     }
 }  
 
@@ -40,6 +41,11 @@ String.prototype.escapeHTML = function(): string
     {
         return entityMap[s];
     });
+}
+
+String.prototype.escapeRegex = function(): string 
+{
+    return this.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
 
 export {};  

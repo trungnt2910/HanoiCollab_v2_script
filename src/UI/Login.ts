@@ -76,6 +76,7 @@ async function LoginPopup(displayText: string | null = null)
                             GM_setValue("HanoiCollabIdentity", JSON.stringify(data));
                             HanoiCollab$("#hanoicollab-login-popup-container")?.remove();
                             HanoiCollabGlobals.Identity = data as IIdentity;
+                            HanoiCollabGlobals.ActiveUsername = username;
                             if (HanoiCollabGlobals.OnIdentityChange)
                             {
                                 HanoiCollabGlobals.OnIdentityChange(HanoiCollabGlobals.Identity);
@@ -155,7 +156,9 @@ async function SetupIdentity()
     {
         return await LoginPopup();
     }
+    var storedUsername = await GM_getValue("HanoiCollabUsername", null);
     HanoiCollabGlobals.Identity = storedIdentity;
+    HanoiCollabGlobals.ActiveUsername = storedUsername;
     return HanoiCollabGlobals.Identity;
 }
 
