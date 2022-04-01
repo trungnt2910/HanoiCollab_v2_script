@@ -8,6 +8,25 @@ import { FormProviderType } from "./FormProviderType";
 
 import "../Utilities/String";
 
+// Microsoft obfuscates its internal scripts.
+// If anything breaks, look here first.
+function ResolveName(str: string)
+{
+    switch (str)
+    {
+        case "Data":
+            return "$$";
+        case "Id":
+            return "$I";
+        case "Questions":
+            return "$f";
+        case "Answer":
+            return "$e";
+    }
+    
+    throw new Error("Invalid Office Forms FormState name: " + str);
+}
+
 class MicrosoftFormsFormProvider extends FormProvider
 {
     PatchScript(src: string, code: string): string
@@ -79,14 +98,14 @@ class MicrosoftFormsFormProvider extends FormProvider
 
     GetFormId(): string
     {
-        return "" + HanoiCollabGlobals.Window.HanoiCollabExposedVariables.FormState.$$.$H;
+        return "" + HanoiCollabGlobals.Window.HanoiCollabExposedVariables.FormState[ResolveName("Data")][ResolveName("Id")];
     }
 
     ExtractQuestions(): QuestionLayout[] 
     {
         var result = [];
         var elements = HanoiCollabGlobals.Document.querySelectorAll(".office-form-question-content");
-        var questions = HanoiCollabGlobals.Window.HanoiCollabExposedVariables.FormState.$$.$e;
+        var questions = HanoiCollabGlobals.Window.HanoiCollabExposedVariables.FormState[ResolveName("Data")][ResolveName("Questions")];
 
         for (let i = 0; i < elements.length; ++i)
         {
@@ -127,7 +146,7 @@ class MicrosoftFormsFormProvider extends FormProvider
     {
         var result = [];
         var elements = HanoiCollabGlobals.Document.querySelectorAll(".office-form-question-content");
-        var questions = HanoiCollabGlobals.Window.HanoiCollabExposedVariables.FormState.$$.$e;
+        var questions = HanoiCollabGlobals.Window.HanoiCollabExposedVariables.FormState[ResolveName("Data")][ResolveName("Questions")];
 
         for (let i = 0; i < elements.length; ++i)
         {
@@ -138,7 +157,7 @@ class MicrosoftFormsFormProvider extends FormProvider
             info.GetUserAnswer = function()
             {
                 var info = this;
-                var content = HanoiCollabGlobals.Window.HanoiCollabExposedVariables.FormState.$$.$e[info.Id].runtime.$c;
+                var content = HanoiCollabGlobals.Window.HanoiCollabExposedVariables.FormState[ResolveName("Data")][ResolveName("Questions")][info.Id].runtime[ResolveName("Answer")];
                 if (!content || content.length == 0)
                 {
                     return null;
@@ -174,7 +193,7 @@ class MicrosoftFormsFormProvider extends FormProvider
                 info.ClearUserAnswer = function()
                 {
                     var info = this;
-                    HanoiCollabGlobals.Window.HanoiCollabExposedVariables.FormState.$$.$e[info.Id].runtime.$c = [];
+                    HanoiCollabGlobals.Window.HanoiCollabExposedVariables.FormState[ResolveName("Data")][ResolveName("Questions")][info.Id].runtime[ResolveName("Answer")] = [];
                     for (var input of info.HtmlElement.getElementsByTagName("input"))
                     {
                         input.checked = false;
@@ -182,7 +201,7 @@ class MicrosoftFormsFormProvider extends FormProvider
                     if (HanoiCollabGlobals.Window.HanoiCollabExposedVariables.UpdateLocalStorage)
                     {
                         HanoiCollabGlobals.Window.HanoiCollabExposedVariables.UpdateLocalStorage(
-                            HanoiCollabGlobals.Window.HanoiCollabExposedVariables.FormState.$$
+                            HanoiCollabGlobals.Window.HanoiCollabExposedVariables.FormState[ResolveName("Data")]
                         );    
                     }
                 }
@@ -192,7 +211,7 @@ class MicrosoftFormsFormProvider extends FormProvider
                 info.ClearUserAnswer = function()
                 {
                     var info = this;
-                    HanoiCollabGlobals.Window.HanoiCollabExposedVariables.FormState.$$.$e[info.Id].runtime.$c = "";
+                    HanoiCollabGlobals.Window.HanoiCollabExposedVariables.FormState[ResolveName("Data")][ResolveName("Questions")][info.Id].runtime[ResolveName("Answer")] = "";
                     for (var input of info.HtmlElement.getElementsByTagName("input"))
                     {
                         input.value = "";
@@ -200,7 +219,7 @@ class MicrosoftFormsFormProvider extends FormProvider
                     if (HanoiCollabGlobals.Window.HanoiCollabExposedVariables.UpdateLocalStorage)
                     {
                         HanoiCollabGlobals.Window.HanoiCollabExposedVariables.UpdateLocalStorage(
-                            HanoiCollabGlobals.Window.HanoiCollabExposedVariables.FormState.$$
+                            HanoiCollabGlobals.Window.HanoiCollabExposedVariables.FormState[ResolveName("Data")]
                         );    
                     }
                 }
