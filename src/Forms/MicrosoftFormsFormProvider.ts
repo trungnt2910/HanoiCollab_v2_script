@@ -17,11 +17,11 @@ function ResolveName(str: string)
         case "Data":
             return "$$";
         case "Id":
-            return "$G";
+            return "$I";
         case "Questions":
-            return "$f";
+            return "$d";
         case "Answer":
-            return "$e";
+            return "$f";
     }
     
     throw new Error("Invalid Office Forms FormState name: " + str);
