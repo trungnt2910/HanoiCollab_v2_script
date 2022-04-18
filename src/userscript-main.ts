@@ -86,32 +86,59 @@ async function Main()
     await SetupToast();
 
     await SetupServer();
-    await SetupIdentity();
 
-    await SetupChatConnection();
-    await SetupChatUserInterface();
+    var validIdentity = false;
+    if (await SetupIdentity())
+    {
+        validIdentity = true;
+    }
+
+    if (validIdentity)
+    {
+        await SetupChatConnection();
+        await SetupChatUserInterface();    
+    }
 
     var isTest = await HanoiCollabGlobals.ProviderFunctions.WaitForTestReady();
 
     HanoiCollabGlobals.OnIdentityChange = async function()
     {
-        await TerminateChatConnection();
+        try
+        {
+            await TerminateChatConnection();
+        }
+        catch
+        {
+            console.warn("Failed to terminate chat connection.");
+        }
+
         await SetupChatConnection();
         await SetupChatUserInterface();
+        
         if (isTest)
         {
-            await TerminateExamConnection();
+            try
+            {
+                await TerminateExamConnection();
+            }
+            catch
+            {
+                console.warn("Failed to terminate exam connection.");
+            }
+
             await SetupExamConnection();    
         }
     }
+
     if (isTest)
     {
         HanoiCollabGlobals.Questions = HanoiCollabGlobals.ProviderFunctions.GetQuestionInfos();
         HanoiCollabGlobals.ProviderFunctions.SetupElementHooks();
         SetupSuspiciousQuestionsUserInterface();
-        await SetupExamConnection();
         HanoiCollabGlobals.ProviderFunctions.SetupCommunityAnswersUI();
+        await SetupExamConnection();
     }
+
     window.addEventListener("beforeunload", async function() 
     {
         await TerminateChatConnection();

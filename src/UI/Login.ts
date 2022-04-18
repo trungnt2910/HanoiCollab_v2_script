@@ -2,7 +2,10 @@ import { Html } from "../Utilities/Html";
 import { HanoiCollabGlobals } from "../Data/HanoiCollabGlobals";
 import { HanoiCollab$ } from "./HanoiCollabQuery";
 
-async function LoginPopup(displayText: string | null = null)
+const MillisecondsPerDay = 24 * 60 * 60 * 1000;
+let loginSuppressTimestamp: number;
+
+async function LoginPopup(displayText: string | null = null, manualLogin: boolean = false)
 {
     if (HanoiCollabGlobals.Document.getElementById("hanoicollab-login-popup-container"))
     {
@@ -11,6 +14,12 @@ async function LoginPopup(displayText: string | null = null)
 
     HanoiCollabGlobals.LoginPopupPromise = new Promise(async function(resolve, reject)
     {
+        if (!manualLogin && loginSuppressTimestamp && Date.now() - loginSuppressTimestamp < MillisecondsPerDay)
+        {
+            reject("Login popup suppressed.");
+            return;
+        }
+
         var oldUsername = await GM_getValue("HanoiCollabUsername", "");
 
         displayText = displayText ? displayText : "Please sign in to use HanoiCollab";
@@ -150,6 +159,8 @@ async function LoginPopup(displayText: string | null = null)
 
         HanoiCollab$("#hanoicollab-close-suppress-button")!.addEventListener("click", function()
         {
+            loginSuppressTimestamp = Date.now();
+            GM_setValue("HanoiCollabSuppressLoginPopupTimestamp", JSON.stringify(loginSuppressTimestamp));
             HanoiCollab$("#hanoicollab-login-popup-container")!.remove();
             reject("User cancelled");
         });
@@ -161,9 +172,18 @@ async function LoginPopup(displayText: string | null = null)
 async function SetupIdentity()
 {
     var storedIdentity = JSON.parse(await GM_getValue("HanoiCollabIdentity", null));
+    loginSuppressTimestamp = JSON.parse(await GM_getValue("HanoiCollabSuppressLoginPopupTimestamp", "0"));
     if (!storedIdentity || !storedIdentity.Token || !storedIdentity.Expiration || Date.parse(storedIdentity.Expiration) <= Date.now())
     {
-        return await LoginPopup();
+        try
+        {
+            await LoginPopup();
+        }
+        catch
+        {
+            console.warn("Failed to log in to HanoiCollab. Some features may be unavailable.");
+            return null;
+        }
     }
     var storedUsername = await GM_getValue("HanoiCollabUsername", null);
     HanoiCollabGlobals.Identity = storedIdentity;

@@ -20,7 +20,7 @@ function SetupKeyBindings()
 
     AddKeyBinding('h', (e) => ToggleStealthMode());
     AddKeyBinding('s', (e) => ServerPrompt());
-    AddKeyBinding('l', (e) => LoginPopup());
+    AddKeyBinding('l', (e) => LoginPopup(null, true));
 }
 
 function AddKeyBinding(key: string, listener: (e: KeyboardEvent) => void)

@@ -12,7 +12,9 @@ import { QuestionInfo } from "../Data/QuestionInfo";
 
 async function SetupExamConnection()
 {
-    if (HanoiCollabGlobals.ExamConnection)
+    // In some cases (for example, when the user refuses to provide a valid identity on startup),
+    // the connection might be non-null, but not connected. In this case, we should still reconnect.
+    if (HanoiCollabGlobals.ExamConnection && HanoiCollabGlobals.ExamConnection.state === "Connected")
     {
         return HanoiCollabGlobals.ExamConnection;
     }
