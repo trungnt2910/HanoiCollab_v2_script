@@ -25,7 +25,8 @@ class AzotaFormProvider extends FormProvider
                     request.open("GET", child.src, false);
                     request.send(null);
                     var scriptContent = request.responseText;
-                    scriptContent = scriptContent.replace(/constructor\\([a-zA-Z,]*?\\){/gm, (match) => {return match + "try{if(!window.HanoiCollabExposedVariables)window.HanoiCollabExposedVariables=[];HanoiCollabExposedVariables.push(this);}catch(e){console.log(e);}"});
+                    scriptContent = scriptContent.replace(/constructor\\([a-zA-Z_,]*?\\){super\\([a-zA-Z_,]*?\\),*/gm, (match) => {return match + "this;try{if(!window.HanoiCollabExposedVariables)window.HanoiCollabExposedVariables=[];HanoiCollabExposedVariables.push(this);}catch(e){console.log(e);}"});
+                    scriptContent = scriptContent.replace(/constructor\\([a-zA-Z_,]*?\\){/gm, (match) => {return match + "try{if(!window.HanoiCollabExposedVariables)window.HanoiCollabExposedVariables=[];HanoiCollabExposedVariables.push(this);}catch(e){console.log(e);}"});
                     var scriptBlob = new Blob([scriptContent], {type: "application/javascript"});
                     var scriptURL = URL.createObjectURL(scriptBlob);
                     child.removeAttribute("integrity");
@@ -34,7 +35,7 @@ class AzotaFormProvider extends FormProvider
                 document.head.appendChild(child);
             })`
             );
-            code = code.replace(/sendMonitorAction\([A-Za-z,]*?\){/, match => match + `console.log("Blocked monitor action.");return;`);
+            code = code.replace(/sendMonitorAction\([A-Za-z_,]*?\){/, match => match + `console.log("Blocked monitor action.");return;`);
             code = code.replace(/trackInfos:[^,}]*/, `trackInfos: null`);
             code = code.replace(/resultTrack:[^,}]*/, `resultTrack: null`);
         }
@@ -126,26 +127,26 @@ class AzotaFormProvider extends FormProvider
             var currentQuestionType = currentQuestion.answerType == 1 ? "multipleChoice" : "written";
             if (currentQuestion.answerType == 1)
             {
-                if (currentQuestion.answerConfig[0].alpha)
+                if (currentQuestion.answerConfigParse[0].key)
                 {
-                    for (var j = 0; j < currentQuestion.answerConfig.length; ++j)
+                    for (var j = 0; j < currentQuestion.answerConfigParse.length; ++j)
                     {
-                        answers.push(new AnswerLayout(currentQuestion.answerConfig[j].content.replace("<br>", "\n"), [], currentQuestion.answerConfig[j].key, currentQuestion.answerConfig[j].alpha, []));
+                        answers.push(new AnswerLayout(currentQuestion.answerConfigParse[j].content.replace("<br>", "\n"), [], currentQuestion.answerConfigParse[j].key, currentQuestion.answerConfigParse[j].alpha || currentQuestion.answerConfigParse[j].content, []));
                     }
                 }
                 else
                 {
-                    for (var j = 0; j < currentQuestion.answerConfig[0].answer.length; ++j)
+                    for (var j = 0; j < currentQuestion.answerConfigParse[0].answer.length; ++j)
                     {
                         //To-Do: Is this shit shuffled?
-                        answers.push(new AnswerLayout("", [], currentQuestion.answerConfig[0].answer[j].content, currentQuestion.answerConfig[0].answer[j].content, []));
+                        answers.push(new AnswerLayout("", [], currentQuestion.answerConfigParse[0].answer[j].content, currentQuestion.answerConfigParse[0].answer[j].content, []));
                     }
                 }
             }
             var currentQuestionResources = [];
             var currentQuestionImageResources = [];
             var currentQuestionDescription = currentQuestion.questionText;
-            for (var content of currentQuestion.questionContent)
+            for (var content of currentQuestion.questionContentParse)
             {
                 if (["jpg", "png", "bmp", "svg"].includes(content.extension))
                 {
@@ -212,19 +213,19 @@ class AzotaFormProvider extends FormProvider
 
             if (questions[i].answerType === 1)
             {
-                if (questions[i].answerConfig[0].alpha)
+                if (questions[i].answerConfigParse[0].key)
                 {
-                    for (var j = 0; j < questions[i].answerConfig.length; ++j)
+                    for (var j = 0; j < questions[i].answerConfigParse.length; ++j)
                     {
-                        info.Answers.push({Id: questions[i].answerConfig[j].key, Alpha: questions[i].answerConfig[j].alpha});
+                        info.Answers.push({Id: questions[i].answerConfigParse[j].key, Alpha: questions[i].answerConfigParse[j].alpha || questions[i].answerConfigParse[j].content});
                     }
                 }
                 else
                 {
-                    for (var j = 0; j < questions[i].answerConfig[0].answer.length; ++j)
+                    for (var j = 0; j < questions[i].answerConfigParse[0].answer.length; ++j)
                     {
                         //To-Do: Is this shit shuffled?
-                        info.Answers.push({Id: questions[i].answerConfig[0].answer[j].content, Alpha: questions[i].answerConfig[0].answer[j].content});
+                        info.Answers.push({Id: questions[i].answerConfigParse[0].answer[j].content, Alpha: questions[i].answerConfigParse[0].answer[j].content});
                     }
                 }
 
@@ -242,9 +243,9 @@ class AzotaFormProvider extends FormProvider
                         (button as HTMLElement).style.background = "#fff";
                         (button as HTMLElement).style.color =  "#111";
                     });
-                    for (var j = 0; j < questions[info.Index].answerConfig.length; ++j)
+                    for (var j = 0; j < questions[info.Index].answerConfigParse.length; ++j)
                     {
-                        questions[info.Index].answerConfig[j].checked = false;
+                        questions[info.Index].answerConfigParse[j].checked = false;
                     }
                 }
             }
