@@ -10,7 +10,7 @@ class HanoiCollabGlobalType
     readonly WindowId: string;
 
     // === SCRIPT INFO ===
-    readonly Version: string = "0.2.4";
+    readonly Version: string = GM_info.script.version;
     readonly StableDownload: string = "https://raw.githubusercontent.com/trungnt2910/HanoiCollab_v2/master/Clients/HanoiCollab_v2.user.js";
     readonly BetaDownload: string = "https://raw.githubusercontent.com/trungnt2910/HanoiCollab_v2_script/dist/HanoiCollab_v2.user.js";
     readonly DiscordServer: string = "https://discord.gg/qHkJCDs4";
