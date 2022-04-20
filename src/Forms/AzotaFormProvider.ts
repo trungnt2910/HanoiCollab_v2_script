@@ -27,6 +27,11 @@ class AzotaFormProvider extends FormProvider
                     var scriptContent = request.responseText;
                     scriptContent = scriptContent.replace(/constructor\\([a-zA-Z_,]*?\\){super\\([a-zA-Z_,]*?\\),*/gm, (match) => {return match + "this;try{if(!window.HanoiCollabExposedVariables)window.HanoiCollabExposedVariables=[];HanoiCollabExposedVariables.push(this);}catch(e){console.log(e);}"});
                     scriptContent = scriptContent.replace(/constructor\\([a-zA-Z_,]*?\\){/gm, (match) => {return match + "try{if(!window.HanoiCollabExposedVariables)window.HanoiCollabExposedVariables=[];HanoiCollabExposedVariables.push(this);}catch(e){console.log(e);}"});
+                    scriptContent = scriptContent.replace(/checkFullScreen\\(\\){/gm, (match) => {return match + "return true;"});
+                    scriptContent = scriptContent.replace(/goBackFullScreen\\(\\){/gm, (match) => {return match + \`console.log("Blocked monitor action");return;\`});
+                    scriptContent = scriptContent.replace(/exitFullscreen\\(\\){/gm, (match) => {return match + \`console.log("Blocked monitor action");return;\`});
+                    scriptContent = scriptContent.replace(/trackInfos:[^,}]*/gm, \`trackInfos: null\`);
+                    scriptContent = scriptContent.replace(/resultTrack:[^,}]*/gm, \`resultTrack: null\`); 
                     var scriptBlob = new Blob([scriptContent], {type: "application/javascript"});
                     var scriptURL = URL.createObjectURL(scriptBlob);
                     child.removeAttribute("integrity");
@@ -36,8 +41,6 @@ class AzotaFormProvider extends FormProvider
             })`
             );
             code = code.replace(/sendMonitorAction\([A-Za-z_,]*?\){/, match => match + `console.log("Blocked monitor action.");return;`);
-            code = code.replace(/trackInfos:[^,}]*/, `trackInfos: null`);
-            code = code.replace(/resultTrack:[^,}]*/, `resultTrack: null`);
         }
         return code;
     }
