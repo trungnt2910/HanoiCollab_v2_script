@@ -12,8 +12,6 @@
 // @grant        GM_xmlhttpRequest
 // @grant        GM_getValue
 // @grant        GM_setValue
-// @require      http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
-// @require      https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.2/signalr.min.js
 // @match        https://forms.office.com/Pages/ResponsePage.aspx?*
 // @match        https://shub.edu.vn/*
 // @match        https://azota.vn/*

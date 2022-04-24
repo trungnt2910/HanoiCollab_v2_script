@@ -1,14 +1,14 @@
 {
   "devDependencies": {
-    "@types/node": "^17.0.21",
+    "@types/node": "^17.0.25",
     "@types/terser-webpack-plugin": "^2.2.3",
     "@types/webpack": "^5.28.0",
     "cross-env": "^7.0.3",
-    "ts-loader": "^9.2.7",
+    "ts-loader": "^9.2.8",
     "ts-node": "^10.7.0",
-    "tsconfig-paths": "^3.13.0",
-    "typescript": "^4.6.2",
-    "webpack": "^5.70.0",
+    "tsconfig-paths": "^3.14.1",
+    "typescript": "^4.6.3",
+    "webpack": "^5.72.0",
     "webpack-cli": "^4.9.2"
   },
   "scripts": {
@@ -19,7 +19,7 @@
     "content-to-clipboard": "chcp 65001 && clip < out/HanoiCollab_v2.user.js"
   },
   "dependencies": {
-    "@microsoft/signalr": "^6.0.3",
+    "@microsoft/signalr": "^6.0.4",
     "mathml-to-latex": "^1.2.0"
   }
 }
