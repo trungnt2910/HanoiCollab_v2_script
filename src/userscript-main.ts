@@ -63,8 +63,7 @@ async function Main()
 
     await SetupSandbox();
 
-    // We had a nice time implementing this, however, this function still have 
-    // some problems:
+    // We had a nice time implementing this, however, this function still has some problems:
     // - A loop of the snapshot seems really suspicious when the student doesn't move during the test.
     // The teacher might accuse the student of using a virtual background.
     // - A loop of the screenshot is way more suspicious: The clock does not tick if the screenshot 

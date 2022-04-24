@@ -14,7 +14,7 @@ class HanoiCollabGlobalType
     readonly StableDownload: string = "https://raw.githubusercontent.com/trungnt2910/HanoiCollab_v2/master/Clients/HanoiCollab_v2.user.js";
     readonly BetaDownload: string = "https://raw.githubusercontent.com/trungnt2910/HanoiCollab_v2_script/dist/HanoiCollab_v2.user.js";
     readonly DiscordServer: string = "https://discord.gg/tDsux9HWPr";
-    readonly GithubRepo: string = "https://github.com/trungnt2910/HanoiCollab_v2"
+    readonly GithubRepo: string = "https://github.com/trungnt2910/HanoiCollab_v2";
     readonly DistributionRoot: string = "https://raw.githubusercontent.com/trungnt2910/HanoiCollab_v2_script/dist";
 
     // === SETTINGS ===
