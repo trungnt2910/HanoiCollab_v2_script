@@ -140,13 +140,16 @@ class GoogleDocsFormProvider extends FormProvider
                 q.CommunityAnswersHtml.style.zIndex = "9997";
                 q.CommunityAnswersHtml.style.minWidth = "10%";
                 q.HtmlElement.appendChild(q.CommunityAnswersHtml);
+
+                const hoverOffset = 10;
+
                 q.HtmlElement.addEventListener("mouseenter", function(ev)
                 {
                     if (!HanoiCollabGlobals.IsStealthMode)
                     {
                         q.CommunityAnswersHtml.style.display = "block";
-                        q.CommunityAnswersHtml.style.left = `${ev.screenX}`;
-                        q.CommunityAnswersHtml.style.top = `${ev.screenY}`;    
+                        q.CommunityAnswersHtml.style.left = `${ev.clientX + hoverOffset}`;
+                        q.CommunityAnswersHtml.style.top = `${ev.clientY + hoverOffset}`;    
                     }
                 });
                 q.HtmlElement.addEventListener("mousemove", function(ev)
@@ -154,8 +157,8 @@ class GoogleDocsFormProvider extends FormProvider
                     if (!HanoiCollabGlobals.IsStealthMode)
                     {
                         q.CommunityAnswersHtml.style.display = "block";
-                        q.CommunityAnswersHtml.style.left = `${ev.screenX}`;
-                        q.CommunityAnswersHtml.style.top = `${ev.screenY}`;    
+                        q.CommunityAnswersHtml.style.left = `${ev.clientX + hoverOffset}`;
+                        q.CommunityAnswersHtml.style.top = `${ev.clientY + hoverOffset}`;    
                     }
                 });
                 q.HtmlElement.addEventListener("mouseleave", function()
