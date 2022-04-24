@@ -112,6 +112,11 @@ class AzotaFormProvider extends FormProvider
         return FormProviderType.Azota;
     }
 
+    DisableSandbox(): boolean 
+    {
+        return !top!.location.href.includes("/take-test");
+    }
+
     GetFormId(): string 
     {
         return "" + HanoiCollabGlobals.Window.HanoiCollabExposedVariables.FormState.exam_obj.id;
