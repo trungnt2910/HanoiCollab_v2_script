@@ -17,9 +17,9 @@ function ResolveName(str: string)
         case "Data":
             return "$$";
         case "Id":
-            return "$I";
+            return "$H";
         case "Questions":
-            return "$d";
+            return "$g";
         case "Answer":
             return "$f";
     }
@@ -34,8 +34,8 @@ class MicrosoftFormsFormProvider extends FormProvider
         if (src.includes("page.min"))
         {
             code = code
-                .replace("return(e=e||c.length!==Object.keys(n).length)?i:n", "return(e=e||c.length!==Object.keys(n).length)?(function(i){window.HanoiCollabExposedVariables=window.HanoiCollabExposedVariables||[];window.HanoiCollabExposedVariables.FormState=i;return i})(i):n")
-                .replace("function f(n){var r=(0,o.cF)", "function f(n){window.HanoiCollabExposedVariables=window.HanoiCollabExposedVariables||[];window.HanoiCollabExposedVariables.UpdateLocalStorage=f;var r=(0,o.cF)");
+                .replace("return(t=t||c.length!==Object.keys(n).length)?i:n", "return(t=t||c.length!==Object.keys(n).length)?(function(i){window.HanoiCollabExposedVariables=window.HanoiCollabExposedVariables||[];window.HanoiCollabExposedVariables.FormState=i;return i})(i):n")
+                .replace("function s(n){var r=(0,o.cF)", "function s(n){window.HanoiCollabExposedVariables=window.HanoiCollabExposedVariables||[];window.HanoiCollabExposedVariables.UpdateLocalStorage=f;var r=(0,o.cF)");
         }
         return code;
     }
