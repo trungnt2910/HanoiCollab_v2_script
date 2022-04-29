@@ -3,25 +3,33 @@ import { QuestionInfo } from "../Data/QuestionInfo";
 import { QuestionType } from "../Data/QuestionType";
 import { HanoiCollabGlobals } from "../Data/HanoiCollabGlobals";
 import { HanoiCollab$ } from "../UI/HanoiCollabQuery";
+import { GetResource } from "../UI/Resources";
 import { FormProvider } from "./FormProvider";
 import { FormProviderType } from "./FormProviderType";
+import { Download } from "../Utilities/Download";
 
 import "../Utilities/String";
+
+interface IDictionary
+{
+    [key: string]: string;
+}
+
+let nameDictionary: IDictionary | null;
 
 // Microsoft obfuscates its internal scripts.
 // If anything breaks, look here first.
 function ResolveName(str: string)
 {
-    switch (str)
+    if (!nameDictionary)
     {
-        case "Data":
-            return "$$";
-        case "Id":
-            return "$H";
-        case "Questions":
-            return "$g";
-        case "Answer":
-            return "$f";
+        throw new Error("Name dictionary not loaded.");
+    }
+
+    var result = nameDictionary[str];
+    if (result)
+    {
+        return result;
     }
     
     throw new Error("Invalid Office Forms FormState name: " + str);
@@ -62,7 +70,10 @@ class MicrosoftFormsFormProvider extends FormProvider
                 else if (HanoiCollab$(".office-form-question-content"))
                 {
                     clearInterval(interval);
-                    resolve(true);
+                    (async function()
+                    {
+                        nameDictionary = JSON.parse((await Download(GetResource("OfficeFormsData.json"))).responseText) as IDictionary;
+                    })().then(() => resolve(true)).catch(e => reject(e));
                     return;
                 }
             }, 1000);
