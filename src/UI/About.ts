@@ -21,7 +21,7 @@ async function DisplayAbout()
     await DisplayPopup(Html.createElement
     (`
     <div style="user-select:text">
-        <img src="${GetImageResource("logo.png")}" style="display:block;width:50%;height:auto;margin-left:auto;margin-right:auto;">
+        <img src="${GetImageResource("logo.png")}" style="display:block;width:30%;height:auto;margin-left:auto;margin-right:auto;">
         <p><b>Version:</b> ${HanoiCollabGlobals.Version}</p>
         <br/>
         <a href="${HanoiCollabGlobals.StableDownload}" style="color:orange;" target="_blank">Check for updates</a>
