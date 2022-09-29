@@ -42,8 +42,8 @@ class MicrosoftFormsFormProvider extends FormProvider
         if (src.includes("page.min"))
         {
             code = code
-                .replace("return(t=t||c.length!==Object.keys(n).length)?i:n", "return(t=t||c.length!==Object.keys(n).length)?(function(i){window.HanoiCollabExposedVariables=window.HanoiCollabExposedVariables||[];window.HanoiCollabExposedVariables.FormState=i;return i})(i):n")
-                .replace("function s(n){var r=(0,o.cF)", "function s(n){window.HanoiCollabExposedVariables=window.HanoiCollabExposedVariables||[];window.HanoiCollabExposedVariables.UpdateLocalStorage=f;var r=(0,o.cF)");
+                .replace("return(r=r||a.length!==Object.keys(n).length)?i:n", "return(r=r||a.length!==Object.keys(n).length)?(function(i){window.HanoiCollabExposedVariables=window.HanoiCollabExposedVariables||[];window.HanoiCollabExposedVariables.FormState=i;return i})(i):n")
+                .replace("function s(n){var e=(0,o.cF)", "function s(n){window.HanoiCollabExposedVariables=window.HanoiCollabExposedVariables||[];window.HanoiCollabExposedVariables.UpdateLocalStorage=f;var e=(0,o.cF)");
         }
         return code;
     }
